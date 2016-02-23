@@ -1,0 +1,13 @@
+<h2>Topic Index</h2>
+  <% @topics.each do |topic| %>
+    <li>
+      <%= link_to topic.title, topic_url(topic.id), :method=> 'get' %>
+        <% if session["user_id"].present?%>
+            <%if User.find_by(id: session["user_id"]).username == topic.user%>
+                 <%= link_to "(delete)", topic_url(topic.id), :method=> 'delete' %>
+            <% end %>
+        <% end %>
+    </li>
+  <% end %>
+
+</ul>

@@ -1,0 +1,11 @@
+<% if session[:user_id].present? %>
+    <%if User.find_by(id: session["user_id"]).username == "Admin"%>
+<h2>Edit The Subforum</h2>
+
+<%=form_tag subforum_url(@subforum.id),:method=>'patch' do%>
+    <p><label>Title:</label> <input name="title" size="30" value="<%=@subforum.title%>"></p>
+    <p><button>Submit</button></p>
+        <%end%>
+    <%end%>
+    <%end%>
+

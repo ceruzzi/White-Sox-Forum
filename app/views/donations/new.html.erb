@@ -1,0 +1,17 @@
+<%= form_tag donate_path, method: "post" do %>
+  <div id="donate-form"></div>
+  <p>
+        <%=label_tag :amount%>
+        <%=text_field_tag :amount%>
+    </p>
+  <input type="submit" value="Donate">
+<% end %>
+
+<script src="https://js.braintreegateway.com/js/braintree-2.20.0.min.js"></script>
+<script>
+braintree.setup(
+    "<%=@client_token%>",
+    "dropin", {
+  container: "donate-form"
+});
+</script>

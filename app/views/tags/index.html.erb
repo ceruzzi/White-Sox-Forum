@@ -1,0 +1,6 @@
+  <% @tags.each do |tag| %>
+    <li>
+      <%= link_to tag.title, tag_url(tag.id), :method=> 'get' %>
+    </li>
+  <% end %>
+

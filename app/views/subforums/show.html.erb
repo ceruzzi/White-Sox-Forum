@@ -1,0 +1,43 @@
+<%= link_to "Go Back", "/"%>
+<h2><%= @subforum.title %></h2>
+
+<p>
+    <% if session["user_id"].present?%>
+        <%if User.find_by(id: session["user_id"]).username == "Admin"%>
+            <%= link_to "Edit", edit_subforum_url(@subforum.id) %>
+        <%end%>
+    <%end%>
+</p>
+
+
+<ul>
+
+
+
+<% Topic.where(subforum_id: @subforum.id).each do |topic| %>
+    <li>
+        <%= link_to topic.title, topic_url(topic.id), :method=> 'get' %>
+        <% if session["user_id"].present?%>
+            <%if User.find_by(id: session["user_id"]).username == topic.user%>
+                <%= link_to "(delete)", topic_url(topic.id), :method=> 'delete' %>
+            <%end%>
+        <%end%>
+    </li>
+<% end %>
+
+</ul>
+<br>
+<br>
+<br>
+<br>
+
+<% if session["user_id"].present?%>
+<h3>Add a New Topic</h3>
+
+<%=form_tag topic_url(@subforum.id), :method => 'post' do%>
+    <p><label>Title:</label> <input name="title" size="30"></p>
+    <p><label>Content:</label></p><textarea name="content" cols="80" rows="3"></textarea>
+    <p><button>Submit</button></p>
+<% end %>
+<% end %>
+

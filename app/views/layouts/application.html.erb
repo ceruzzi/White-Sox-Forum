@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Final</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div class = "pull-right">
+    <h1><%= link_to "White Sox Forum", "/" %>
+   <% Subforum.all.limit(20).each do |subforum| %>
+            <small>  <%= link_to subforum.title, subforum_url(subforum.id), :method=> 'get' %></small>
+           <% end %>
+        <small>  <%= link_to "Tags", tag_index_url, :method=> 'get' %></small>
+    </h1>
+    <% if session["user_id"].present?%>
+        Hi, <%= User.find_by(id: session["user_id"]).username %>
+        <%= link_to "My Account", user_path(User.find_by(id: session["user_id"])) %>
+        <%= link_to "Sign Out", '/logout'%>
+            <%else%>
+    <%= link_to "Sign Up", '/signup' %>
+        <%=link_to "Sign In", '/login'%>
+		<br>
+		<%=link_to "Please Consider Donating", '/donations'%>
+        <% end%>
+
+</div>
+
+<%if notice.present?%>
+<div class="alert alert-info">
+    <%=notice%>
+    </div>
+<%end%>
+
+
+
+<%= yield %>
+
+</body>
+</html>

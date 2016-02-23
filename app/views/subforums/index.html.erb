@@ -1,0 +1,20 @@
+<% if session[:user_id].present? %>
+    <%if User.find_by(id: session["user_id"]).username == "Admin"%>
+        <p><%= link_to "Create a Subforum", subforums_new_url %></p>
+    <% end %>
+<% end %>
+<ul>
+
+  <% @subforums.each do |subforum| %>
+    <li>
+      <%= link_to subforum.title, subforum_url(subforum.id), :method=> 'get' %>
+      <% if session[:user_id].present? %>
+        <%if User.find_by(id: session["user_id"]).username == "Admin"%>
+            <%= link_to "(delete)", subforum_url(subforum.id), :method=> 'delete' %>
+        <% end %>
+      <% end %>
+    </li>
+  <% end %>
+    <li><%= link_to "Topic Index", topic_index_url, :method=> 'get' %></li>
+
+</ul>

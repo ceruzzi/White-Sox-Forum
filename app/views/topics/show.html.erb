@@ -1,0 +1,60 @@
+<% if Subforum.exists?(@topic.subforum_id)%>
+    <%= link_to "Go Back", subforum_url(@topic.subforum_id)%>
+    <%else%>
+    <%= link_to "Go Back", topic_index_url%>
+<%end%>
+
+
+<h2><%= @topic.title %></h2>
+<% @topic.tags.each do |t| %>
+    <%=link_to t.title, tag_url(t.id) %>,
+<%end%>
+
+
+<div>
+    <p><hr><br><b><i>User: <%= @topic.user%></i></b>
+    <br>
+    <br>
+    &nbsp&nbsp&nbsp&nbsp&nbsp<%= @topic.content %>
+    </p>
+
+    <p>
+        <% if session["user_id"].present?%>
+            <%if User.find_by(id: session["user_id"]).username == @topic.user%>
+        <%= link_to "Edit", edit_url(@topic.id) %>
+                <% end %>
+        <% end %>
+
+    </p>
+
+
+    <% Comment.where(topic_id: @topic.id).each do |comment| %>
+        <p><hr><br><b><i>User: <%= comment.user%></i></b>
+        <br>
+        <br>
+        &nbsp&nbsp&nbsp&nbsp&nbsp<%= comment.content %>
+        <p><% if session["user_id"].present?%>
+            <%if User.find_by(id: session["user_id"]).username == comment.user%>
+                <%= link_to "Edit", edit_comment_url(comment.id) %>
+                    </p>
+            <% end %>
+        <% end %>
+        </p>
+        </div>
+    <% end%>
+    <% if session["user_id"].present?%>
+    <h3>Reply:</h3>
+    <%=form_tag comments_url(@topic.id) do%>
+        <p>Content:<br> <textarea name="content" rows="5"cols="100"></textarea></p>
+        <p><input type="submit" value="Send"></p>
+    </form>
+    <% end%>
+
+        <h3>Tag this thread:</h3>
+        <%=form_tag tag_url(@topic.id) do%>
+            <p><label>Tag:</label> <input name="title" size="30"></p>
+            <p><button>Submit</button></p>
+        <% end %>
+
+<% end%>
+

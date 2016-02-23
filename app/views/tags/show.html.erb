@@ -1,0 +1,9 @@
+<h2><%= @tag.title %></h2>
+
+
+<ul>
+
+    <% @tag.topics.each do |t| %>
+        <li><%=link_to t.title, topic_url(t.id), :method=> 'get' %></li>
+    <%end%>
+</ul>

@@ -1,0 +1,7 @@
+<h2>Edit your comment</h2>
+
+<%=form_tag comments_url(@comment.id),:method=>'patch' do%>
+    <p><label>Content:</label></p><textarea name="content" cols="80" rows="3"><%=@comment.content%></textarea>
+    <p><button>Submit</button></p>
+<% end %>
+
